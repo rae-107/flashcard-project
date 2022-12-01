@@ -12,16 +12,16 @@ class Game {
     this.cards
   }
   
-  printQuestion(round) {
-    util.main(round);
-  }
-  
   makeCards() {
-    this.cards = prototypeQuestions.map(card => card = new Card(card.id, card. question, card.answers, card.correctAnswer))
+    this.cards = prototypeQuestions.map(card => card = new Card(card.id, card.question, card.answers, card.correctAnswer))
   }
   
   makeDeck() {
     this.deck = new Deck(this.cards)
+  }
+  
+  startRound() {
+    return this.round = new Round(this.deck)
   }
   
   printMessage(deck) {
@@ -29,8 +29,8 @@ class Game {
     -----------------------------------------------------------------------`)
   }
   
-  startRound() {
-    return this.round = new Round(this.deck)
+  printQuestion(round) {
+    util.main(round);
   }
     
   start() {
