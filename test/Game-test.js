@@ -5,53 +5,55 @@ const Game = require('../src/Game')
 const Round = require('../src/Round')
 const Deck = require('../src/Deck')
 const Card = require('../src/Card')
-const Data = require('../src/data')
-
 
 describe('Game', () => {
-    let game 
-    // let round
-    // let deck
-    // let card
-    // let cards
-    beforeEach(() => {
-      // cards = Data.prototypeData.map(card => card = new Card(card.id, card. question, card.answers, card.correctAnswer) )
-      // card = new Card(1, "What allows you to define a set of related information using key-value pairs?", ["object", "array", "function"], "object")
-      // deck = new Deck(card)
-      // round = new Round(deck)
-      game = new Game()
-    })
+  let game
+  beforeEach(() => {
+    game = new Game()
+  })
 
-    it('should be a function', () => {
-      expect(Game).to.be.a('function')
-    })
+  it('should be a function', () => {
+    expect(Game).to.be.a('function')
+  })
 
-    it('should be an instance of Game', () => {
-      expect(game).to.be.an.instanceof(Game)
-    })
+  it('should be an instance of Game', () => {
+    expect(game).to.be.an.instanceof(Game)
+  })
 
-    it('should keep track of the current round', () => {
-      expect(game.round).to.equal(0)
-    })
+  it('should keep track of the current round', () => {
+    expect(game.round).to.equal(0)
+  })
 
-    it('should create 30 cards', () => {
-      game.makeCards()
+  it('should create 30 cards', () => {
+    game.makeCards()
 
-      expect(game.cards.length).to.equal(30)
-    })
+    expect(game.cards.length).to.equal(30)
+  })
 
-    it('should put all cards into Deck class', () => {
-      game.makeCards()
-      game.makeDeck() 
+  it('should be an instance of Game', () => {
+    game.makeCards()
 
-      expect(game.deck.cards.length).to.equal(30)
-    })
+    expect(game.cards[0]).to.be.an.instanceof(Card)
+  })
 
-    it('should start a new round', () => {
-      game.makeCards()
-      game.makeDeck()
-      game.startRound()
+  it('should put all cards into Deck class', () => {
+    game.makeCards()
+    game.makeDeck()
 
-      expect(game.startRound()).to.be.an.instanceof(Round)
-    })
+    expect(game.deck.cards.length).to.equal(30)
+  })
+
+  it('should be an instance of Game', () => {
+    game.makeDeck()
+
+    expect(game.deck).to.be.an.instanceof(Deck)
+  })
+
+  it('should start a new round', () => {
+    game.makeCards()
+    game.makeDeck()
+    game.startRound()
+
+    expect(game.startRound()).to.be.an.instanceof(Round)
+  })
 })

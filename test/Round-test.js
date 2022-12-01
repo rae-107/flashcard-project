@@ -5,19 +5,16 @@ const Round = require('../src/Round')
 const Deck = require('../src/Deck')
 const Card = require('../src/Card')
 const Turn = require('../src/Turn')
+const data = require('../src/data')
 
 describe('Round', () => {
-  
-  let round
-  let deck
-  let card
-  let card1
-  let card2
+
+  let round, deck, card, card1, card2
 
   beforeEach(() => {
-    card = new Card(1, "What allows you to define a set of related information using key-value pairs?", ["object", "array", "function"], "object")
-    card1 = new Card(2, "What is a comma-separated list of related values?", ["array", "object", "function"], "array")
-    card2 = new Card(3, "What type of prototype method directly modifies the existing array?", ["mutator method", "accessor method", "iteration method"], "mutator method")
+    card = new Card(data.prototypeData[0].id, data.prototypeData[0].question ,data.prototypeData[0].answers, data.prototypeData[0].correctAnswer)
+    card1 = new Card(data.prototypeData[1].id, data.prototypeData[1].question ,data.prototypeData[1].answers, data.prototypeData[1].correctAnswer)
+    card2 = new Card(data.prototypeData[2].id, data.prototypeData[2].question ,data.prototypeData[2].answers, data.prototypeData[2].correctAnswer)
     deck = new Deck([card, card1, card2])
     round = new Round(deck)
   })
@@ -45,13 +42,13 @@ describe('Round', () => {
   it('should keep track of the current card', () => {
     expect(round.returnCurrentCard()).to.deep.equal(card)
   })
-  
+
   it('should be able to update turns count after guess is made', () => {
     round.takeTurn()
-    
+
     expect(round.turns).to.equal(1)
   })
-  
+
   it('should instatiate new turn instance after every guess', () => {
     const turn = new Turn('object', card)
 
@@ -61,19 +58,23 @@ describe('Round', () => {
   })
 
   it('should evaluate guess', () => {
+    const round1 = new Round(deck)
     const turn = new Turn('object', card)
-
-    round.takeTurn(turn.guess)
-
-
-    expect(turn.evaluateGuess()).to.equal(true)
-
     const turn1 = new Turn('avocado', card1)
 
-    round.takeTurn(turn1.guess)
+    round.takeTurn(turn.guess)
+    round1.takeTurn(turn1.guess)
 
-
+    expect(turn.evaluateGuess()).to.equal(true)
     expect(turn1.evaluateGuess()).to.equal(false)
+  })
+
+  it('should give feedback for correct or incorrect guesses', () => {
+    const turn = new Turn('object', card)
+    const turn1 = new Turn('maple tree', card1)
+
+    expect(round.takeTurn(turn.guess)).to.equal('correct!')
+    expect(round.takeTurn(turn1.guess)).to.equal('incorrect!')
   })
 
   it('should make the next card the current card', () => {
@@ -88,26 +89,14 @@ describe('Round', () => {
     expect(round.turn.card).to.deep.equal(card1)
 
     round.takeTurn(turn2.guess)
-    expect(round.turn.card).to.deep.equal(card2) 
-  })
-
-  it('should give feedback for correct or incorrect guesses', () => {
-    const turn = new Turn('object', card)
-
-    expect(round.takeTurn(turn.guess)).to.equal('correct!')
-
-    const turn1 = new Turn('maple tree', card1)
-
-    expect(round.takeTurn(turn1.guess)).to.equal('incorrect!')
+    expect(round.turn.card).to.deep.equal(card2)
   })
 
   it('should gather all incorrect card id\'s in the incorrect guesses array', () => {
     const turn = new Turn('object', card)
-
-    round.takeTurn(turn.guess)
-
     const turn1 = new Turn('blue', card1)
 
+    round.takeTurn(turn.guess)
     round.takeTurn(turn1.guess)
 
     expect(round.incorrectGuesses).to.deep.equal([2])
@@ -115,12 +104,11 @@ describe('Round', () => {
 
   it('should calculate the percetage of correct guesses', () => {
     const turn = new Turn('object', card)
-    round.takeTurn(turn.guess)
-    
     const turn1 = new Turn('array', card1)
-    round.takeTurn(turn1.guess)
-
     const turn2 = new Turn('oranges', card2)
+    
+    round.takeTurn(turn.guess)
+    round.takeTurn(turn1.guess)
     round.takeTurn(turn2.guess)
 
     round.calculatePercentage()
@@ -130,21 +118,19 @@ describe('Round', () => {
 
   it('should print to the console that the  round is over', () => {
     const turn = new Turn('object', card)
-    round.takeTurn(turn.guess)
-    
-    const turn1 = new Turn('array', card1)
-    round.takeTurn(turn1.guess)
-
+    const turn1 = new Turn('pears', card1)
     const turn2 = new Turn('oranges', card2)
+    
+    round.takeTurn(turn.guess)
+    round.takeTurn(turn1.guess)
     round.takeTurn(turn2.guess)
-
+    
     round.calculatePercentage()
 
-    expect(round.calculatePercentage()).to.equal(67)
-
     round.endRound()
-
-    expect(round.endRound()).to.equal(`** Round over! ** You answered <67>% of the questions correctly!`)
+    
+    expect(round.calculatePercentage()).to.equal(33)
+    expect(round.endRound()).to.equal(`** Round over! ** You answered <33>% of the questions correctly!`)
   })
 })
 

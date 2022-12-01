@@ -12,7 +12,6 @@ class Round {
   }
   takeTurn(guess) {
     this.turn = new Turn(guess, this.deck.cards[this.turns])
-    this.turn.evaluateGuess()
     this.turns++
     if(!this.turn.evaluateGuess()) {
       this.incorrectGuesses.push(this.turn.card.id)
@@ -21,8 +20,7 @@ class Round {
     return this.turn.giveFeedback()
   }
   calculatePercentage() {
-    let percentageIncorrect = this.incorrectGuesses.length / this.turns * 100
-    let correctPercentage = 100 - percentageIncorrect
+    let correctPercentage = 100 - this.incorrectGuesses.length / this.turns * 100
     return +correctPercentage.toFixed(0)
   }
   endRound() {
@@ -30,5 +28,6 @@ class Round {
     return `** Round over! ** You answered <${this.calculatePercentage()}>% of the questions correctly!`
   }
 }
+
 
 module.exports = Round

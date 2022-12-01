@@ -3,20 +3,19 @@ const expect = chai.expect
 
 const Deck = require('../src/Deck')
 const Card = require('../src/Card')
+const data = require('../src/data')
 
 describe('Deck', () => {
 
-  let card
-  let card1
-  let card2 
-  let deck
+  let card, card1, card2, deck
+
   beforeEach(() => {
-    card = new Card(1, "What allows you to define a set of related information using key-value pairs?", ["object", "array", "function"], "object")
-    card1 = new Card(2, "What is a comma-separated list of related values?", ["array", "object", "function"], "array")
-    card2 = new Card(3, "What type of prototype method directly modifies the existing array?", ["mutator method", "accessor method", "iteration method"], "mutator method")
-    
+    card = new Card(data.prototypeData[0].id, data.prototypeData[0].question ,data.prototypeData[0].answers, data.prototypeData[0].correctAnswer)
+    card1 = new Card(data.prototypeData[1].id, data.prototypeData[1].question ,data.prototypeData[1].answers, data.prototypeData[1].correctAnswer)
+    card2 = new Card(data.prototypeData[2].id, data.prototypeData[2].question ,data.prototypeData[2].answers, data.prototypeData[2].correctAnswer)
     deck = new Deck([card, card1, card2])
   })
+
   it('should be a function', () => {
     expect(Deck).to.be.a('function')
   })

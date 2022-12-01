@@ -3,14 +3,15 @@ const expect = chai.expect
 
 const Turn = require('../src/Turn')
 const Card = require('../src/Card')
+const data = require('../src/data')
 
 describe('Turn', () => {
 
-  let turn
-  let card
+  let turn, card
+
   beforeEach(() => {
     turn = new Turn('object', card)
-    card = new Card(1, "What allows you to define a set of related information using key-value pairs?", ["object", "array", "function"], "object")
+    card = new Card(data.prototypeData[0].id, data.prototypeData[0].question ,data.prototypeData[0].answers, data.prototypeData[0].correctAnswer)
   })
 
   it('should be a function', () => {
@@ -19,6 +20,14 @@ describe('Turn', () => {
 
   it('should be an instance of Turn', () => {
     expect(turn).to.be.an.instanceof(Turn)
+  })
+
+  it('should be able to take in a guess', () => {
+    expect(turn.guess).to.equal('object')
+  })
+
+  it('should be able to take in a card', () => {
+    expect(turn.card).to.deep.equal(card)
   })
 
   it('should return the guess', () => {
@@ -30,12 +39,7 @@ describe('Turn', () => {
   it('should return the card object', () => {
     turn.returnCard()
 
-    expect(turn.returnCard()).to.deep.equal({
-      id: 1,
-      question: 'What allows you to define a set of related information using key-value pairs?',
-      answers: ['object', 'array', 'function'],
-      correctAnswer: 'object'
-    })
+    expect(turn.returnCard()).to.deep.equal(card)
   })
 
   it('should return true or false if guess matches the correct answer', () => {
