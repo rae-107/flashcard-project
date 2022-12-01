@@ -12,6 +12,7 @@
 
 ### Preview of App:
 [//]: <> (Provide ONE gif or screenshot of your application - choose the "coolest" piece of functionality to show off.)
+![flashcards-gif](https://user-images.githubusercontent.com/113261334/205172673-519bac3f-574f-4666-ae14-07f7a7547a89.gif)
 
 
 ### Context:
